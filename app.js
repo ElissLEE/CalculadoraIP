@@ -6,14 +6,30 @@ function llamarFunciones(e) {
     e.preventDefault();
     dividirIPyMascara();
     obtenerMascaraEnDecimal();
-    obtenerBroadcastRed();
+    direccionBroadcast=obtenerBroadcastRed();
+      
+      const broadcast= document.getElementById('broadcast');
+      broadcast.innerHTML = direccionBroadcast;
     numBitsParaIdentificarRed();
     numHosts= numBitsParaIdentificarHosts();
       const bitsHosts= document.getElementById('bitsHosts');
       bitsHosts.innerHTML = numHosts;
-    numHostsRed=cantidadHostsEnRed();
+    cantiHostsRed=cantidadHostsEnRed();
       const cantHostsRed= document.getElementById('cantHostsRed');
-      cantHostsRed.innerHTML = numHostsRed;
+      cantHostsRed.innerHTML = cantiHostsRed;
+    rangoDirecciones= calcularRangoDirecciones();
+    const rangoDire= document.getElementById('rangoDirecciones');
+    rangoDire.innerHTML ="";
+    rangoDirecciones.forEach(direccion => {
+        rangoDire.innerHTML += direccion+"-";
+    });
+    
+    listaDirecciones=obtenerListadoHosts();
+    const direccionesHosts= document.getElementById('lista');
+    direccionesHosts.innerHTML ="";
+    listaDirecciones.forEach(direccionH => {
+        direccionesHosts.innerHTML += direccionH+"-";
+    });
 }
 
 function dividirIPyMascara() {
@@ -68,7 +84,7 @@ function binarioAIpDecimal(valorBinario) {
 function obtenerBroadcastRed() {
     
     var broadcastBinario = ""
-    var ipEnBinario = pasarIpABinario()
+    var ipEnBinario = pasarIpABinario(direccionIP);
 
     for (let i = 0; i < ipEnBinario.length; i++) {
        if(i<mascara)
@@ -81,16 +97,15 @@ function obtenerBroadcastRed() {
        }
         
     }
-   
+
     direccionBroadcast= binarioAIpDecimal(broadcastBinario);
-    const broadcast= document.getElementById('broadcast');
-    broadcast.innerHTML = direccionBroadcast;
+    return direccionBroadcast;
 }
 
-function pasarIpABinario() {
+function pasarIpABinario(dirIP) {
     
     var ipBinario= "";
-    var octetos = direccionIP.split(".");
+    var octetos = dirIP.split(".");
     
     for (const octeto in octetos) {
         if (Object.hasOwnProperty.call(octetos,octeto)) {
@@ -126,4 +141,49 @@ function cantidadHostsEnRed(){
         cantHosts = Math.pow(2, bitsHosts);
     }
     return cantHosts - 2
+}
+
+function calcularRangoDirecciones()
+{
+    cantidadHosts= cantidadHostsEnRed();
+ 
+    if(cantidadHosts>0)
+    {
+        var hostMinimoBinario= pasarIpABinario(direccionIP);
+        hostMinimoBinario = hostMinimoBinario.substring(0, hostMinimoBinario.length - 1) + '1';
+        hostMinimo = binarioAIpDecimal(hostMinimoBinario);
+
+        var direccionBroadcast = obtenerBroadcastRed();
+        var hostMaximoBinario = pasarIpABinario(direccionBroadcast);
+        hostMaximoBinario = hostMaximoBinario.substring(0, hostMaximoBinario.length - 1) + '0';
+        hostMaximo = binarioAIpDecimal(hostMaximoBinario);
+    }
+    return Array.of(direccionIP,hostMinimo,hostMaximo,direccionBroadcast);
+}
+
+function obtenerListadoHosts() {
+    var cantidadHosts= cantidadHostsEnRed();
+
+    console.log(cantidadHosts);
+    if(cantidadHosts>0)
+    {
+        var direccionesHosts = [];
+
+       var bitsRed= pasarIpABinario(direccionIP).substring(0,mascara);
+        var bitsHosts= numBitsParaIdentificarHosts();
+        
+        for (let i = 1; i <=cantidadHosts; i++){
+            var binario = i.toString(2);
+            while (binario.length<bitsHosts) {
+                binario = 0+binario;
+                
+            } 
+
+            direccionHost = binarioAIpDecimal(bitsRed + binario);
+            direccionesHosts.push(direccionHost);
+
+        }
+       
+    }
+    return direccionesHosts;
 }
