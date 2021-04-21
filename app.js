@@ -5,31 +5,41 @@ var mascara;
 function llamarFunciones(e) {
     e.preventDefault();
     dividirIPyMascara();
-    obtenerMascaraEnDecimal();
+
+    mascaraDeci=obtenerMascaraEnDecimal();
+    const mascara= document.getElementById('mascara');
+    mascara.innerHTML = mascaraDeci;
+
     direccionBroadcast=obtenerBroadcastRed();
-      
       const broadcast= document.getElementById('broadcast');
       broadcast.innerHTML = direccionBroadcast;
-    numBitsParaIdentificarRed();
+
+    numBitsRed=numBitsParaIdentificarRed();
+    const bitsRed= document.getElementById('bitsRed');
+    bitsRed.innerHTML = numBitsRed;
+
     numHosts= numBitsParaIdentificarHosts();
       const bitsHosts= document.getElementById('bitsHosts');
       bitsHosts.innerHTML = numHosts;
+
     cantiHostsRed=cantidadHostsEnRed();
       const cantHostsRed= document.getElementById('cantHostsRed');
       cantHostsRed.innerHTML = cantiHostsRed;
+
     rangoDirecciones= calcularRangoDirecciones();
     const rangoDire= document.getElementById('rangoDirecciones');
     rangoDire.innerHTML ="";
     rangoDirecciones.forEach(direccion => {
         rangoDire.innerHTML += direccion+"-";
     });
-    
+   
     listaDirecciones=obtenerListadoHosts();
     const direccionesHosts= document.getElementById('lista');
     direccionesHosts.innerHTML ="";
     listaDirecciones.forEach(direccionH => {
         direccionesHosts.innerHTML += direccionH+"-";
     });
+
 }
 
 function dividirIPyMascara() {
@@ -45,9 +55,7 @@ function obtenerMascaraEnDecimal() {
     var mascaraBinario= convertirMascaraABinario();
     var mascaraDecimal= binarioAIpDecimal(mascaraBinario);
 
-    const mascara= document.getElementById('mascara');
-    mascara.innerHTML = mascaraDecimal;
-
+    return mascaraDecimal;
 }
 
 function convertirMascaraABinario() {
@@ -65,6 +73,7 @@ function convertirMascaraABinario() {
          mascaraBinario +="0";
        }
     }
+    
    return mascaraBinario;
 }
 
@@ -78,6 +87,7 @@ function binarioAIpDecimal(valorBinario) {
             valorDecimal += '.';
         }
     }
+
     return valorDecimal;
 }
 
@@ -123,8 +133,7 @@ function pasarIpABinario(dirIP) {
 function numBitsParaIdentificarRed() {
 
     numBits=mascara;
-    const bitsRed= document.getElementById('bitsRed');
-    bitsRed.innerHTML = numBits;
+    return numBits;
 } 
 
 function numBitsParaIdentificarHosts() {
@@ -149,7 +158,8 @@ function calcularRangoDirecciones()
  
     if(cantidadHosts>0)
     {
-        var hostMinimoBinario= pasarIpABinario(direccionIP);
+        var direccionRed = obtenerDireccionRed();
+        var hostMinimoBinario= pasarIpABinario(direccionRed);
         hostMinimoBinario = hostMinimoBinario.substring(0, hostMinimoBinario.length - 1) + '1';
         hostMinimo = binarioAIpDecimal(hostMinimoBinario);
 
@@ -158,13 +168,33 @@ function calcularRangoDirecciones()
         hostMaximoBinario = hostMaximoBinario.substring(0, hostMaximoBinario.length - 1) + '0';
         hostMaximo = binarioAIpDecimal(hostMaximoBinario);
     }
-    return Array.of(direccionIP,hostMinimo,hostMaximo,direccionBroadcast);
+    return Array.of(direccionRed,hostMinimo,hostMaximo,direccionBroadcast);
 }
 
+function obtenerDireccionRed() {
+    
+    var direccionRedBin="";
+    var direccionIpBin=pasarIpABinario(direccionIP);
+
+    for (let i = 0; i < direccionIpBin.length; i++) {
+        if(i<mascara)
+        {
+            direccionRedBin += direccionIpBin[i];
+        }
+        else
+        {
+            direccionRedBin += "0";
+        }
+         
+     }
+ 
+     return binarioAIpDecimal(direccionRedBin);
+
+}
 function obtenerListadoHosts() {
     var cantidadHosts= cantidadHostsEnRed();
 
-    console.log(cantidadHosts);
+
     if(cantidadHosts>0)
     {
         var direccionesHosts = [];
@@ -186,4 +216,16 @@ function obtenerListadoHosts() {
        
     }
     return direccionesHosts;
+}
+
+function generarIPAleatoria(){
+
+    var ip = (Math.floor(Math.random() * 255) + 1)+"."+(Math.floor(Math.random() * 255))+"."+(Math.floor(Math.random() * 255))+"."+(Math.floor(Math.random() * 255))+"/"+(Math.floor(Math.random() * (32)) + 1);
+    return ip;
+}
+
+function generarEjercicio(e) {
+   e.preventDefault();
+   var ip= generarIPAleatoria();
+   direccionConMascara.value=ip;
 }
