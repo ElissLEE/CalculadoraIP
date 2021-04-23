@@ -47,7 +47,7 @@ function dividirIPyMascara() {
     var arrayipYmascara= direccionConMascara.value.split("/");
     direccionIP= arrayipYmascara[0];
     mascara= parseInt(arrayipYmascara[1]);
-    
+
 }
 
 function obtenerMascaraEnDecimal() {
@@ -220,8 +220,38 @@ function obtenerListadoHosts() {
 
 function generarIPAleatoria(){
 
-    var ip = (Math.floor(Math.random() * 255) + 1)+"."+(Math.floor(Math.random() * 255))+"."+(Math.floor(Math.random() * 255))+"."+(Math.floor(Math.random() * 255))+"/"+(Math.floor(Math.random() * (32)) + 1);
+    var ip = (Math.floor(Math.random() * 255) + 1)+"."+(Math.floor(Math.random() * 255))+"."+(Math.floor(Math.random() * 255))+"."+(Math.floor(Math.random() * 255)); 
+    mascaraSimplificada = sacarMascaraAdecuada(ip);
+    ip += mascaraSimplificada;
     return ip;
+}
+
+function sacarMascaraAdecuada(ip ) {
+    
+    mascaraSimplificada = "";
+    ipArray= ip.split(".");
+     
+    if(ipArray[0]<100)
+    {
+        mascaraSimplificada +="/"+(Math.floor(Math.random() * (32 - 20) + 20));
+    }
+    else{
+        if(ipArray[0]<10)
+        {
+            mascaraSimplificada +="/"+(Math.floor(Math.random() * (29-8) + 8));
+        }
+        else{
+            if(ipArray[0]>100)
+            {
+                mascaraSimplificada +="/"+(Math.floor(Math.random() * (32 - 20) + 20));
+            }
+            else{
+                mascaraSimplificada +="/"+(Math.floor(Math.random() * (32-8) + 8));
+            }
+        }
+    }
+
+    return mascaraSimplificada;
 }
 
 function generarEjercicio(e) {
