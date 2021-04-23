@@ -60,12 +60,12 @@
             <form>
                 <div class="form-group">
                   <label for="exampleInputEmail1" >Direccion IP con Mascara de subred</label>
-                  <input type="" class="form-control" id="ipConMascara" aria-describedby="emailHelp" placeholder="Direccion en formato simplificado[8,32]">
+                  <input type="" class="form-control campoTexto"  id="ipConMascara" aria-describedby="emailHelp" placeholder="Direccion en formato simplificado[8,32]">
                   <small id="emailHelp" class="form-text text-muted"></small>
                 </div>
                 
                 <button type="submit" class="btn btn-primary" onclick="llamarFunciones(event);">Calcular</button>
-                <button type="submit" class="btn btn-primary" onclick="generarEjercicio(event);">Generar ejercicio</button>
+                <button type="submit" class="btn btn-primary" onclick="generarEjercicio(event,1);">Generar ejercicio</button>
               </form>
               <br>
 
@@ -126,13 +126,57 @@
           <div class="col-sm">
             <form>
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Direccion IP</label>
-                  <input type="" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Direccion IP">
+                  <label for="exampleInputEmail1">Direccion IP Host con Mascara de subred</label>
+                  <input type="" class="form-control campoTexto" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="mascara entre [8,32]">
                   <small id="emailHelp" class="form-text text-muted"></small>
                 </div>
                 
-                <button type="submit" class="btn btn-primary">Calcular</button>
+                <button type="submit" class="btn btn-primary" onclick="llamarFuncionesPunto2(event);">Calcular</button>
+                <button type="submit" class="btn btn-primary" onclick="generarEjercicio(event,2);">Generar ejercicio</button>
               </form>
+              <br>
+
+              <div class="container" visibility:>
+                <table class="table">
+                  
+                  <tbody>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>Direccion de la red:</td>
+                      <td id="direccionRed"></td>
+                      
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>Direccion de broadcast:</td>
+                      <td id="broadcastRed"></td>
+                      
+                    </tr>
+                    <tr>
+                      <th scope="row">3</th>
+                      <td>Cantidad de hosts en la red:</td>
+                      <td id="cantidadHosts"></td>
+                      
+                    <tr>
+                      <th scope="row">4</th>
+                      <td>rango de direcciones: </td>
+                      <td id="rangoDireccionesHosts"></td>
+                      
+                    </tr>
+                    <tr>
+                      <th scope="row">5</th>
+                      <td>El	listado	de	las	direcciones	que	se	pueden	asignar	a	los	hosts: </td>
+                      <td id="listaHostsRed"></td>
+                      
+                    </tr>
+                  </tbody>
+                </table>
+
+              </div>
+
+
+
+
           </div>
 
           <div class="col-sm">

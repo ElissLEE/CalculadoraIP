@@ -1,16 +1,16 @@
-const direccionConMascara= document.getElementById("ipConMascara");
+const direccionConMascara= document.getElementsByClassName("campoTexto");
 var direccionIP;
 var mascara;
 
 function llamarFunciones(e) {
     e.preventDefault();
-    dividirIPyMascara();
+    dividirIPyMascara(1);
 
     mascaraDeci=obtenerMascaraEnDecimal();
     const mascara= document.getElementById('mascara');
     mascara.innerHTML = mascaraDeci;
 
-    direccionBroadcast=obtenerBroadcastRed();
+    direccionBroadcast=obtenerBroadcastRed(direccionIP);
       const broadcast= document.getElementById('broadcast');
       broadcast.innerHTML = direccionBroadcast;
 
@@ -26,14 +26,14 @@ function llamarFunciones(e) {
       const cantHostsRed= document.getElementById('cantHostsRed');
       cantHostsRed.innerHTML = cantiHostsRed;
 
-    rangoDirecciones= calcularRangoDirecciones();
+    rangoDirecciones= calcularRangoDirecciones(direccionIP);
     const rangoDire= document.getElementById('rangoDirecciones');
     rangoDire.innerHTML ="";
     rangoDirecciones.forEach(direccion => {
         rangoDire.innerHTML += direccion+"-";
     });
    
-    listaDirecciones=obtenerListadoHosts();
+    listaDirecciones=obtenerListadoHosts(direccionIP);
     const direccionesHosts= document.getElementById('lista');
     direccionesHosts.innerHTML ="";
     listaDirecciones.forEach(direccionH => {
@@ -42,9 +42,9 @@ function llamarFunciones(e) {
 
 }
 
-function dividirIPyMascara() {
+function dividirIPyMascara(numeroEjercicio) {
     
-    var arrayipYmascara= direccionConMascara.value.split("/");
+    var arrayipYmascara= direccionConMascara[numeroEjercicio-1].value.split("/");
     direccionIP= arrayipYmascara[0];
     mascara= parseInt(arrayipYmascara[1]);
 
@@ -91,10 +91,10 @@ function binarioAIpDecimal(valorBinario) {
     return valorDecimal;
 }
 
-function obtenerBroadcastRed() {
+function obtenerBroadcastRed(ip) {
     
     var broadcastBinario = ""
-    var ipEnBinario = pasarIpABinario(direccionIP);
+    var ipEnBinario = pasarIpABinario(ip);
 
     for (let i = 0; i < ipEnBinario.length; i++) {
        if(i<mascara)
@@ -152,7 +152,7 @@ function cantidadHostsEnRed(){
     return cantHosts - 2
 }
 
-function calcularRangoDirecciones()
+function calcularRangoDirecciones(ip)
 {
     cantidadHosts= cantidadHostsEnRed();
  
@@ -163,7 +163,7 @@ function calcularRangoDirecciones()
         hostMinimoBinario = hostMinimoBinario.substring(0, hostMinimoBinario.length - 1) + '1';
         hostMinimo = binarioAIpDecimal(hostMinimoBinario);
 
-        var direccionBroadcast = obtenerBroadcastRed();
+        var direccionBroadcast = obtenerBroadcastRed(ip);
         var hostMaximoBinario = pasarIpABinario(direccionBroadcast);
         hostMaximoBinario = hostMaximoBinario.substring(0, hostMaximoBinario.length - 1) + '0';
         hostMaximo = binarioAIpDecimal(hostMaximoBinario);
@@ -191,7 +191,7 @@ function obtenerDireccionRed() {
      return binarioAIpDecimal(direccionRedBin);
 
 }
-function obtenerListadoHosts() {
+function obtenerListadoHosts(ip) {
     var cantidadHosts= cantidadHostsEnRed();
 
 
@@ -199,7 +199,7 @@ function obtenerListadoHosts() {
     {
         var direccionesHosts = [];
 
-       var bitsRed= pasarIpABinario(direccionIP).substring(0,mascara);
+       var bitsRed= pasarIpABinario(ip).substring(0,mascara);
         var bitsHosts= numBitsParaIdentificarHosts();
         
         for (let i = 1; i <=cantidadHosts; i++){
@@ -254,8 +254,41 @@ function sacarMascaraAdecuada(ip ) {
     return mascaraSimplificada;
 }
 
-function generarEjercicio(e) {
+function generarEjercicio(e, numeroEjercicio) {
    e.preventDefault();
    var ip= generarIPAleatoria();
-   direccionConMascara.value=ip;
+   direccionConMascara[numeroEjercicio-1].value=ip;
+}
+
+function llamarFuncionesPunto2(e) {
+    e.preventDefault();
+    dividirIPyMascara(2);
+
+    var direccionRedHost = obtenerDireccionRed();
+    const direccionRedH= document.getElementById('direccionRed');
+    direccionRedH.innerHTML = direccionRedHost;
+
+    direccionBroadcastRed=obtenerBroadcastRed(direccionRedHost);
+    const broadcastRed= document.getElementById('broadcastRed');
+    broadcastRed.innerHTML = direccionBroadcastRed;
+
+    cantiHostsRed=cantidadHostsEnRed();
+      const cantidadHostsR= document.getElementById('cantidadHosts');
+      cantidadHostsR.innerHTML = cantiHostsRed;
+
+      rangoDireccionesHosts= calcularRangoDirecciones(direccionRedHost);
+      const rangoDireHosts= document.getElementById('rangoDireccionesHosts');
+      rangoDireHosts.innerHTML ="";
+      rangoDireccionesHosts.forEach(direccion => {
+        rangoDireHosts.innerHTML += direccion+"-";
+      });
+
+      listaDireccionesHosts=obtenerListadoHosts(direccionRedHost);
+      const direccionesHostsR= document.getElementById('listaHostsRed');
+      direccionesHostsR.innerHTML ="";
+      listaDireccionesHosts.forEach(direccionH => {
+          direccionesHostsR.innerHTML += direccionH+"-";
+      });
+    
+     
 }
