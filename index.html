@@ -177,13 +177,13 @@
           <form>
               <div class="form-group">
                 <label for="exampleInputEmail1"> <b>Direccion IP con mascara </b></label>
-                <input type="" class="form-control" id="direccionPunto3" aria-describedby="emailHelp" placeholder="Direccion en formato simplificado">
+                <input type="" class="form-control campoTexto" id="direccionPunto3" aria-describedby="emailHelp" placeholder="Direccion en formato simplificado">
                 <br>
                 <label for="exampleInputEmail1"> <b>Cantidad de bits para indentificar subredes </b></label>
-                <input type="number" class="form-control" id="bitsPunto3" aria-describedby="emailHelp" placeholder="# Bits">
+                <input type="number" class="form-control campoTexto" id="bitsPunto3" aria-describedby="emailHelp" placeholder="# Bits">
                 <small id="emailHelp" class="form-text text-muted"></small>
                 <br>
-                <button type="submit" class="btn btn-primary" onclick="">Calcular</button>
+                <button type="submit" class="btn btn-primary" onclick="llamarFuncionesPunto3(event);">Calcular</button>
                 <button type="submit" class="btn btn-primary" onclick="generarEjercicio(event,3);">Generar ejercicio</button>
 
               </div>
@@ -195,13 +195,13 @@
                     <tr>
                       <th scope="row">1</th>
                       <td>Direccion IP	de	la	red	principal:</td>
-                      <td id=""></td>
+                      <td id="direccionPrincipal"></td>
                       
                     </tr>
                     <tr>
                       <th scope="row"></th>
-                      <td>Direccion de	broadcast.:</td>
-                      <td id=""></td>
+                      <td>Direccion de	broadcast:</td>
+                      <td id="direccionBroadcast"></td>
                       
                     </tr>
                     <tr>
@@ -308,6 +308,7 @@
      https://firebase.google.com/docs/web/setup#available-libraries -->
 
 <script src= "app.js"></script>
+<script  src="punto3.js"></script>
 
 </body>
 
