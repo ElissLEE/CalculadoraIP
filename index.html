@@ -54,12 +54,10 @@
 
     <!-- Page Features -->
     <div class="container">
-        <div class="row">
-          <div class="col-sm">
-            
+       
             <form>
                 <div class="form-group">
-                  <label for="exampleInputEmail1" >Direccion IP con Mascara de subred</label>
+                  <label for="exampleInputEmail1" > <b> IP con Mascara de subred </b></label>
                   <input type="" class="form-control campoTexto"  id="ipConMascara" aria-describedby="emailHelp" placeholder="Direccion en formato simplificado[8,32]">
                   <small id="emailHelp" class="form-text text-muted"></small>
                 </div>
@@ -119,14 +117,11 @@
                 </table>
 
               </div>
-              
-              
-          </div>
 
-          <div class="col-sm">
+          <div >
             <form>
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Direccion IP Host con Mascara de subred</label>
+                  <label for="exampleInputEmail1"> <b> IP Host con Mascara de subred </b></label>
                   <input type="" class="form-control campoTexto" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="mascara entre [8,32]">
                   <small id="emailHelp" class="form-text text-muted"></small>
                 </div>
@@ -174,26 +169,123 @@
 
               </div>
 
-
-
-
           </div>
 
-          <div class="col-sm">
+        
+        <div >
+           
+          <form>
+              <div class="form-group">
+                <label for="exampleInputEmail1"> <b>Direccion IP con mascara </b></label>
+                <input type="" class="form-control" id="direccionPunto3" aria-describedby="emailHelp" placeholder="Direccion en formato simplificado">
+                <br>
+                <label for="exampleInputEmail1"> <b>Cantidad de bits para indentificar subredes </b></label>
+                <input type="number" class="form-control" id="bitsPunto3" aria-describedby="emailHelp" placeholder="# Bits">
+                <small id="emailHelp" class="form-text text-muted"></small>
+                <br>
+                <button type="submit" class="btn btn-primary" onclick="">Calcular</button>
+                <button type="submit" class="btn btn-primary" onclick="generarEjercicio(event,3);">Generar ejercicio</button>
+
+              </div>
+              
+              <div class="container" visibility:>
+                <table class="table">
+                  
+                  <tbody>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>Direccion IP	de	la	red	principal:</td>
+                      <td id=""></td>
+                      
+                    </tr>
+                    <tr>
+                      <th scope="row"></th>
+                      <td>Direccion de	broadcast.:</td>
+                      <td id=""></td>
+                      
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td># de	subredes	que	se	pueden	utilizar:</td>
+                      <td id=""></td>
+                      
+                    </tr>
+                    <tr>
+                      <th scope="row">3</th>
+                      <td>#	de	hosts	que	se	pueden	identificar	en	cada	subred:</td>
+                      <td id=""></td>
+                      
+                    <tr>
+                      <th scope="row">4</th>
+                      <td>Tabla	con	la	dirección	IP, el	rango	de	direcciones	
+                        de	la subred y	la	dirección	de	broadcast	de	cada	subred </td>
+                      <td id=""></td>
+                      
+                    </tr>
+                    <tr>
+                      <th scope="row">5</th>
+                      <td>Tabla	con	la	dirección	IP ingresada por el usuario , el	rango	de	direcciones	
+                        de	la subred y	la	dirección	de	broadcast	de	cada	subred </td>
+                      <td id=""></td>
+                      
+                    </tr>
+
+                    <tr>
+                      <th scope="row">6</th>
+                      <td>Dirección	de	una	subred	específica: </td>
+                      <td id=""></td>
+                      
+                    </tr>
             
-            <form>
-                <div class="form-group">
-                  <label for="exampleInputEmail1">Direccion IP</label>
-                  <input type="" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Direccion IP">
-                  <small id="emailHelp" class="form-text text-muted"></small>
-                </div>
-                
-                <button type="submit" class="btn btn-primary">Calcular</button>
-              </form>
+                    <tr>
+                      <th scope="row">7</th>
+                      <td>Dirección	de	broadcast	de	una	subred	específica: </td>
+                      <td id=""></td>
+                      
+                    </tr>
 
-          </div>
+                    <tr>
+                      <th scope="row">8</th>
+                      <td>Dirección	de	un	host	específico	en	una	subred	específica:</td>
+                      <td id=""></td>
+                      
+                    </tr>
 
-          
+                    <tr>
+                      <th scope="row">9</th>
+                      <td>Rango	 completo	 de	 direcciones	 que	 se	 pueden	 asignar	 a	 los	 hosts	 de	 una	 subred	
+                        específica:</td>
+                      <td id=""></td>
+                      
+                    </tr>
+
+                    <tr>
+                      <th scope="row">10</th>
+                      <td>Determinar	la	subred	a	la	que	pertenece	una	dirección	IP	específica:</td>
+                      <td id=""></td>
+                      
+                    </tr>
+
+                    <tr>
+                      <th scope="row">11</th>
+                      <td>Determinar si	dos	direcciones	IP	hacen	parte	de	la	misma	subred:</td>
+                      <td id=""></td>
+                      
+                    </tr>
+
+                    <tr>
+                      <th scope="row">12</th>
+                      <td>Dar	n	direcciones	IP	de una	subred	dada:</td>
+                      <td id=""></td>
+                      
+                    </tr>
+
+                  </tbody>
+                </table>
+
+              </div>
+            </form>
+
         </div>
       </div>
     <!-- /.row -->
