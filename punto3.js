@@ -1,3 +1,4 @@
+//Funcion que genera los resultados de los 4 primeros  puntos 
 function llamarFuncionesPunto3(e) {
   
     e.preventDefault();
@@ -36,6 +37,7 @@ function llamarFuncionesPunto3(e) {
  
 }
 
+//Funcion que resuelve los puntos 5,6,7 y 8 
 function llamarFuncionSubred(e){
 
     e.preventDefault();
@@ -75,6 +77,7 @@ function llamarFuncionSubred(e){
     direcRango.innerHTML = rango;
 }
 
+//Funcion que resuelve el punto 9
 function llamarFuncionHost(e){
 
     e.preventDefault();
@@ -92,6 +95,7 @@ function llamarFuncionHost(e){
 
 }
 
+//Funcion que resuelve  el punto 10 
 function llamarFuncionIpEspecifica(e){
 
     e.preventDefault();
@@ -107,15 +111,17 @@ function llamarFuncionIpEspecifica(e){
 
 }
 
+//Funcion que resuelve el punto 11
 function llamarFuncionIpConexion(e){
 
     e.preventDefault();
   
+    //datos de la primera direccion ip 
     dividirIPyMascara(9);
-
     var direccion1 = direccionIP
     var mascara1= mascara
 
+    //datos de la segunda direccion ip 
     dividirIPyMascara(10);
     var direccion2 = direccionIP
     var mascara2= mascara
@@ -133,6 +139,7 @@ function llamarFuncionIpConexion(e){
 
 }
 
+//Funcion que resuelve el puunto 12
 function llamarFuncionNSubredes(e){
 
     e.preventDefault();
@@ -150,6 +157,8 @@ function llamarFuncionNSubredes(e){
     nDirec.innerHTML = listaDirec;
 
 }
+
+    //Funcion que calcula la direccion de un host especifico 
     function calcularDireccionHostEspecifico(arregloDireccion, bitSubredes, numeroS,numHost){
 
         var cadena = calcularIpSubred(arregloDireccion, bitSubredes, numeroS);
@@ -164,9 +173,7 @@ function llamarFuncionNSubredes(e){
     function calcularRedPrincipal(){
 
         var direccionBinario =pasarIpABinario(direccionIP);
-
         var direccionRecortada= direccionBinario.substring(0,mascara);
-    
         var principalBin= completarDireccion(direccionRecortada,0)
         
         return  binarioAIpDecimal (principalBin)
@@ -201,6 +208,7 @@ function llamarFuncionNSubredes(e){
         return cont;
     }
 
+    //Funcion que convierte la direccion ip en binario y a guarda en un arreglo 
     function generarDireccionArreglo(){
 
         var direccionBinaria =pasarIpABinario(direccionIP);    
@@ -259,6 +267,7 @@ function llamarFuncionNSubredes(e){
         return cadena;
     }
 
+    //Funcion que calcula la direccion ip de una subred especifica
     function calcularIpSubred(arregloDireccion, bitSubredes, numeroS) {
  
         var contador = 0;
@@ -271,12 +280,11 @@ function llamarFuncionNSubredes(e){
             arreglo[i] = arregloAuxiliar[contador];
             contador++;
         }
-
-        
+      
         return arreglo.join('').substring(0,tope);
-
     }
     
+    //Funcion que completa con 1 o 0 la direccion ip en binario 
     function completarDireccion(direccion,numero){
 
         while(direccion.length < 32){
@@ -286,6 +294,7 @@ function llamarFuncionNSubredes(e){
         return direccion;
     }
 
+    //Funcion que convierte de decimal a binario ocupando los bits ingresados 
     function transformarDecimalBinario(numero, cantBits) {
       
         var auxiliar = transformarDecimalBinario2(numero);
@@ -294,6 +303,7 @@ function llamarFuncionNSubredes(e){
         var nuevoArreglo = [];
      
         for (var i = 0; i < cantBits; i++) {
+           
             if (i < numeroNuevo) {
                 nuevoArreglo[i] = "0";
             } else {
@@ -305,6 +315,7 @@ function llamarFuncionNSubredes(e){
         return nuevoArreglo;
     }
 
+    //Funcion que convierte de decimal a binario 
     function transformarDecimalBinario2(numero) {
         
         var auxiliar = numero.toString(2);
@@ -314,6 +325,7 @@ function llamarFuncionNSubredes(e){
         var numNuevo = 8 - arreglo.length;
           
         for (var i = 0; i < 8; i++) {
+            
             if (i < numNuevo) {
                 nuevoArreglo[i] = "0";
             } else {
@@ -325,15 +337,18 @@ function llamarFuncionNSubredes(e){
         return nuevoArreglo.join('');
     }
     
-  function calcularRango(direccionIpBinaria, bitSubredes, subred) {
-   
-    let arregloDireccion = direccionIpBinaria.split("");
-    var cadena= "";
- 
-    cadena += generarRangoSubred(subred,arregloDireccion,bitSubredes);
- 
-    return cadena;
-}
+    //Funcion que calcula el rango de direcciones Ip de una subred 
+    function calcularRango(direccionIpBinaria, bitSubredes, subred) {
+    
+        let arregloDireccion = direccionIpBinaria.split("");
+        var cadena= "";
+    
+        cadena += generarRangoSubred(subred,arregloDireccion,bitSubredes);
+    
+        return cadena;
+    }
+
+    //Funcion que genera una cadena con la informacion del rango de una subred 
     function generarRangoSubred(valor,arregloDireccion,bitSubredes){
     
         var cadena = "";
@@ -345,11 +360,8 @@ function llamarFuncionNSubredes(e){
         direccion = direccion.substring(0, direccion.length - 1 ) + 1;
         
         var dirBroadcast = completarDireccion(numSubred2, 1);
-
         var direccionFinal =  dirBroadcast.substring(0,  dirBroadcast.length - 1 ) + 0;
 
-
-        
         cadena += binarioAIpDecimal(direccion) + "<br>" + "   ";
         cadena += binarioAIpDecimal(direccionFinal) + "<br>" + "   ";
       
@@ -357,17 +369,17 @@ function llamarFuncionNSubredes(e){
         return cadena;
     }
 
+    //Funcion que determita la subred de una direccion ip 
     function determinarSubred(bitSubredes){
 
         var direccionBinario =pasarIpABinario(direccionIP);
-
         var direccionRecortada= direccionBinario.substring(0,mascara + bitSubredes);
-    
         var direccion= completarDireccion(direccionRecortada,0)
         
         return  binarioAIpDecimal (direccion)
     }
-
+    
+    //Funcion que determina si dos direccion ip se encuentran en la misma red 
    function determinarConexion(direccion1,mascara1,direccion2,mascara2) {
 
     var direccionBinario =pasarIpABinario(direccion1);
@@ -379,19 +391,20 @@ function llamarFuncionNSubredes(e){
     masc1 = completarDireccion(masc1,0);
     masc2 = completarDireccion(masc2,0);
 
-    if(masc1 == masc2){
-        return true
-    }
+        if(masc1 == masc2){
+            return true
+        }
 
     return false;
 
     }
 
+    //Funcion que genera el listado de n cantidad de direcciones 
     function listarNDirecciones(numBits,numSubred,cantDirecciones){
 
         var arregloDireccion=generarDireccionArreglo(direccionIP);
-
         var cadena= ""
+        
          for (let i = 1; i <= cantDirecciones; i++) {
         
             cadena+= calcularDireccionHostEspecifico(arregloDireccion, numBits, numSubred,i) + "<br>"
