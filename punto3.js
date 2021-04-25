@@ -34,8 +34,31 @@ function llamarFuncionesPunto3(e) {
     const listadoDirecciones= document.getElementById('listDirecciones');
     listadoDirecciones.innerHTML = listado;
  
+    
 
 }
+
+function llamarFuncionSubred(e){
+
+    e.preventDefault();
+    dividirIPyMascara(3);
+
+    const numBits = document.getElementsByClassName("campoTexto")[3].value;
+    var direccionBinaria =pasarIpABinario(direccionIP);
+    var numeroSubredes = calcularSubredes(numBits);
+    const subred = document.getElementsByClassName("campoTexto")[4].value;
+
+    console.log(subred)
+/*Muestra listado generado por una subred dada  de dirrecion ip,
+     rango de direcciones y direccion de broadcast de las subred */
+    
+     var lista= calcularSubred(direccionBinaria, numBits, numeroSubredes, subred);
+     console.log(lista)
+     const infoSubred= document.getElementById('informacionSubred');
+     infoSubred.innerHTML = lista;
+
+}
+
     // Funcion que calcula la red principal de una direccion ip 
     function calcularRedPrincipal(){
 
@@ -64,6 +87,7 @@ function llamarFuncionesPunto3(e) {
         cont= Math.pow(2,numeroBits)-2;
         return cont;
     }
+
     // Funcion que identifica la red de la direccion ip 
     function identificarRed(mascaraBinaria) {
         var cont = 0;
@@ -76,40 +100,57 @@ function llamarFuncionesPunto3(e) {
         return cont;
     }
 
-
     //Funcion que lista la dirrecion ip, rango de direcciones y direccion de broadcast de las subredes que se pueden usar 
     function calcularIpSubredes(direccionIpBinaria, bitSubredes, numSubredes) {
  
         var direccionAux = direccionIpBinaria.replaceAll('.', '');
         let arregloDireccion = direccionAux.split("");
-        var mascaraAdaptada = mascara + bitSubredes;
-        var cadena = "";
+        var cadena= "";
      
         for (var i = 1; i <= numSubredes; i++) {
             
-            cadena +=  "SUBRED  " + i + ":<br>" + "    ";
-         
-            var numSubred = calcularIpSubred(arregloDireccion, bitSubredes, i);           
-             
-            var direccion = completarDireccion(numSubred , 0);
-            direccion = direccion.substring(0, direccion.length - 1 ) + 1;
-            
-            var dirBroadcast = completarDireccion(numSubred, 1);
-
-            var direccionFinal =  dirBroadcast.substring(0,  dirBroadcast.length - 1 ) + 0;
- 
- 
-            cadena += binarioAIpDecimal( completarDireccion(numSubred , 0)) + "<br>" + "   ";
-            cadena += binarioAIpDecimal(direccion) + "<br>" + "   ";
-            cadena += binarioAIpDecimal(direccionFinal) + "<br>" + "   ";
-            cadena += binarioAIpDecimal( dirBroadcast) + "<br>" + "<br>";
+          cadena += generarInfoSubred(i,arregloDireccion,bitSubredes,numSubredes);
      
         }
      
         return cadena;
     }
     
+  //Funcion que dada la subred lista la dirrecion ip, rango de direcciones y direccion de broadcast de las subredes que se pueden usar 
+  function calcularSubred(direccionIpBinaria, bitSubredes, numSubredes, subred) {
  
+    var direccionAux = direccionIpBinaria.replaceAll('.', '');
+    let arregloDireccion = direccionAux.split("");
+    var cadena= "";
+ 
+    cadena += generarInfoSubred(subred,arregloDireccion,bitSubredes,numSubredes);
+ 
+    return cadena;
+}
+    // Funcion que brinda la informacion de la subred
+    function generarInfoSubred(valor,arregloDireccion,bitSubredes,numSubred){
+    
+        var cadena = "";
+        cadena +=  "SUBRED  " + valor + ":<br>" + "    ";
+         
+        var numSubred = calcularIpSubred(arregloDireccion, bitSubredes, valor);           
+         
+        var direccion = completarDireccion(numSubred , 0);
+        direccion = direccion.substring(0, direccion.length - 1 ) + 1;
+        
+        var dirBroadcast = completarDireccion(numSubred, 1);
+
+        var direccionFinal =  dirBroadcast.substring(0,  dirBroadcast.length - 1 ) + 0;
+
+
+        cadena += binarioAIpDecimal( completarDireccion(numSubred , 0)) + "<br>" + "   ";
+        cadena += binarioAIpDecimal(direccion) + "<br>" + "   ";
+        cadena += binarioAIpDecimal(direccionFinal) + "<br>" + "   ";
+        cadena += binarioAIpDecimal( dirBroadcast) + "<br>" + "<br>";
+        
+        return cadena;
+    }
+
     function calcularIpSubred(arregloDireccion, bitSubredes, numeroS) {
  
         var contador = 0;
