@@ -69,7 +69,96 @@ function llamarFuncionSubred(e){
     const direcBroadcast= document.getElementById('infoBroadcast');
     direcBroadcast.innerHTML = direc;
   
+    // Muestra rango de direcciones que se pueden asignar a un host
+    var rango=calcularRango(direccionBinaria, numBits, subred);
+    const direcRango= document.getElementById('rangoDireccion');
+    direcRango.innerHTML = rango;
 }
+
+function llamarFuncionHost(e){
+
+    e.preventDefault();
+    dividirIPyMascara(3);
+
+    const numBits =parseInt( document.getElementsByClassName("campoTexto")[3].value);
+    const subred = parseInt(document.getElementsByClassName("campoTexto")[4].value);
+    const host = parseInt(document.getElementsByClassName("campoTexto")[5].value);
+    var arregloDireccion = generarDireccionArreglo();
+
+    //Muestra la direccion de un host especifico en una subred especifica 
+    var direcHost=calcularDireccionHostEspecifico(arregloDireccion, numBits, subred,host)
+    const direccHost= document.getElementById('infoHost');
+    direccHost.innerHTML = direcHost;
+
+}
+
+function llamarFuncionIpEspecifica(e){
+
+    e.preventDefault();
+  
+    dividirIPyMascara(7);
+
+    const numBits =parseInt( document.getElementsByClassName("campoTexto")[7].value);
+   
+    //Muestra la subred a la que pertenece la ip ingresada
+    var res= determinarSubred(numBits);
+    const subredEsp= document.getElementById('subredNueva');
+    subredEsp.innerHTML = res;
+
+}
+
+function llamarFuncionIpConexion(e){
+
+    e.preventDefault();
+  
+    dividirIPyMascara(9);
+
+    var direccion1 = direccionIP
+    var mascara1= mascara
+
+    dividirIPyMascara(10);
+    var direccion2 = direccionIP
+    var mascara2= mascara
+
+    //Muestra si dos direcciones pertenecen a la misma red
+    var res= determinarConexion(direccion1,mascara1,direccion2,mascara2);
+    var respuesta="las direcciones ingresadas no pertenecen a la misma red"
+   
+    if (res) {
+        respuesta="las direcciones ingresadas pertenecen a la misma red"
+    }
+
+    const conexionIp= document.getElementById('conexion');
+    conexionIp.innerHTML = respuesta;
+
+}
+
+function llamarFuncionNSubredes(e){
+
+    e.preventDefault();
+  
+    dividirIPyMascara(11);
+
+    const numBits =parseInt( document.getElementsByClassName("campoTexto")[11].value);
+    const numSubred =parseInt( document.getElementsByClassName("campoTexto")[12].value);
+    const numDirecciones =parseInt( document.getElementsByClassName("campoTexto")[13].value);
+   
+    //Muestra n cantidad de direcciones ip
+    var listaDirec= listarNDirecciones(numBits,numSubred,numDirecciones);
+
+    const nDirec= document.getElementById('nDirecciones');
+    nDirec.innerHTML = listaDirec;
+
+}
+    function calcularDireccionHostEspecifico(arregloDireccion, bitSubredes, numeroS,numHost){
+
+        var cadena = calcularIpSubred(arregloDireccion, bitSubredes, numeroS);
+        var cantBits = (32 - mascara) - bitSubredes 
+        var hostBinario = transformarDecimalBinario(numHost, cantBits).join('');
+        var res = binarioAIpDecimal(cadena + hostBinario);
+        
+        return  res;
+    }
 
     // Funcion que calcula la red principal de una direccion ip 
     function calcularRedPrincipal(){
@@ -146,6 +235,7 @@ function llamarFuncionSubred(e){
  
     return cadena;
 }
+
     // Funcion que brinda la informacion de la subred
     function generarInfoSubred(valor,arregloDireccion,bitSubredes){
     
@@ -153,7 +243,6 @@ function llamarFuncionSubred(e){
         cadena +=  "SUBRED  " + valor + ":<br>" + "    ";
          
         var numSubred2 = calcularIpSubred(arregloDireccion, bitSubredes, valor);           
-         console.log(numSubred2)
         var direccion = completarDireccion(numSubred2 , 0);
         direccion = direccion.substring(0, direccion.length - 1 ) + 1;
         
@@ -223,9 +312,7 @@ function llamarFuncionSubred(e){
 
         var nuevoArreglo = new Array();
         var numNuevo = 8 - arreglo.length;
-       
-        var cadena = "";
-     
+          
         for (var i = 0; i < 8; i++) {
             if (i < numNuevo) {
                 nuevoArreglo[i] = "0";
@@ -238,3 +325,78 @@ function llamarFuncionSubred(e){
         return nuevoArreglo.join('');
     }
     
+  function calcularRango(direccionIpBinaria, bitSubredes, subred) {
+   
+    let arregloDireccion = direccionIpBinaria.split("");
+    var cadena= "";
+ 
+    cadena += generarRangoSubred(subred,arregloDireccion,bitSubredes);
+ 
+    return cadena;
+}
+    function generarRangoSubred(valor,arregloDireccion,bitSubredes){
+    
+        var cadena = "";
+        cadena +=  "SUBRED  " + valor + ":<br>" + "    ";
+         
+        var numSubred2 = calcularIpSubred(arregloDireccion, bitSubredes, valor);           
+        
+        var direccion = completarDireccion(numSubred2 , 0);
+        direccion = direccion.substring(0, direccion.length - 1 ) + 1;
+        
+        var dirBroadcast = completarDireccion(numSubred2, 1);
+
+        var direccionFinal =  dirBroadcast.substring(0,  dirBroadcast.length - 1 ) + 0;
+
+
+        
+        cadena += binarioAIpDecimal(direccion) + "<br>" + "   ";
+        cadena += binarioAIpDecimal(direccionFinal) + "<br>" + "   ";
+      
+        
+        return cadena;
+    }
+
+    function determinarSubred(bitSubredes){
+
+        var direccionBinario =pasarIpABinario(direccionIP);
+
+        var direccionRecortada= direccionBinario.substring(0,mascara + bitSubredes);
+    
+        var direccion= completarDireccion(direccionRecortada,0)
+        
+        return  binarioAIpDecimal (direccion)
+    }
+
+   function determinarConexion(direccion1,mascara1,direccion2,mascara2) {
+
+    var direccionBinario =pasarIpABinario(direccion1);
+    var masc1= direccionBinario.substring(0,mascara1);
+
+    var direccionBinario =pasarIpABinario(direccion2);
+    var masc2= direccionBinario.substring(0,mascara2);
+
+    masc1 = completarDireccion(masc1,0);
+    masc2 = completarDireccion(masc2,0);
+
+    if(masc1 == masc2){
+        return true
+    }
+
+    return false;
+
+    }
+
+    function listarNDirecciones(numBits,numSubred,cantDirecciones){
+
+        var arregloDireccion=generarDireccionArreglo(direccionIP);
+
+        var cadena= ""
+         for (let i = 1; i <= cantDirecciones; i++) {
+        
+            cadena+= calcularDireccionHostEspecifico(arregloDireccion, numBits, numSubred,i) + "<br>"
+        
+         }        
+
+         return cadena;
+    }
