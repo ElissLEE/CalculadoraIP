@@ -404,7 +404,7 @@ function llamarFuncionNSubredes(e){
 
         var arregloDireccion=generarDireccionArreglo(direccionIP);
         var cadena= ""
-        
+
          for (let i = 1; i <= cantDirecciones; i++) {
         
             cadena+= calcularDireccionHostEspecifico(arregloDireccion, numBits, numSubred,i) + "<br>"
@@ -413,3 +413,96 @@ function llamarFuncionNSubredes(e){
 
          return cadena;
     }
+
+    //Genera un ejercicio al azar con dfireccion ip y bits
+    function generarEjercicioIPBits(e, numeroEjercicio,num) {
+        e.preventDefault();
+        var ip= generarIPAleatoria();
+        var bit =generarBist(ip);
+        direccionConMascara[numeroEjercicio-1].value=ip;
+        direccionConMascara[num-1].value=bit;
+     }
+
+     //Funcion que genera cantidad de bits aleatoriamente 
+     function generarBist(direccion ){
+  
+        var arreglo = direccion.split("/");
+        var valor= Math.floor((32 - arreglo[1])/2);
+        var bit= Math.floor(Math.random() * valor) + 1;
+
+        return bit;
+     }
+
+     //Funcion que genera ejercicio de dos direcciones ip aleatoriamente 
+     function generarMasIp(e,num,num2){
+
+        e.preventDefault();
+        var ip= generarIPAleatoria();
+        var ip2= generarIPAleatoria();
+        direccionConMascara[num-1].value=ip;
+        direccionConMascara[num2-1].value=ip2;
+     }
+    
+      //Funcion que genera un ejercicio al azar del punto 5 al 8 
+      function generaEjercicio5(e,num1,num2,num3){
+
+        e.preventDefault();
+        var ip= generarIPAleatoria();
+        var bit =generarBist(ip);
+        var valor= calcularSubredes (bit);
+        var subred= Math.floor(Math.random() * (valor - 1)) + 1
+        direccionConMascara[num1-1].value=ip;
+        direccionConMascara[num2-1].value=bit;
+        direccionConMascara[num3-1].value=subred;
+ 
+     }
+
+     //Genera un ejercicio al azar del punto 9
+     function generaEjercicio4(e,num1,num2,num3,num4){
+
+        e.preventDefault();
+        var ip= generarIPAleatoria();
+        var bit =generarBist(ip);
+        var host= generarHost(ip,bit);
+        var valor= calcularSubredes (bit);
+        var subred= Math.floor(Math.random() * (valor - 1)) + 1
+        direccionConMascara[num1-1].value=ip;
+        direccionConMascara[num2-1].value=bit;
+        direccionConMascara[num3-1].value=subred;
+        direccionConMascara[num4-1].value=host;
+     }
+
+       //Funcion que genera cantidad de host aleatoriamente 
+       function generarHost(direccion,bits){
+  
+        var arreglo = direccion.split("/");
+        var valor= 32 - arreglo[1] - bits;
+    
+        return valor;
+     }
+
+//Genera un ejercicio al azar del punto 12
+function generaEjercicio12(e,num1,num2,num3,num4){
+
+    e.preventDefault();
+    var ip= generarIPAleatoria();
+    var bit =generarBist(ip);
+    var valor= calcularSubredes (bit);
+    var subred= Math.floor(Math.random() * (valor - 1)) + 1
+    var nDirecciones = generarDireccionesAleatorias(ip,bit)
+
+    direccionConMascara[num1-1].value=ip;
+    direccionConMascara[num2-1].value=bit;
+    direccionConMascara[num3-1].value=subred;
+    direccionConMascara[num4-1].value=nDirecciones;
+ }
+
+ //Funcion que genera cantidad de direcciones que se van a imprimir
+ function generarDireccionesAleatorias(direccion,bits){
+  
+    var arreglo = direccion.split("/");
+    var valor= 32 - arreglo[1] - bits;
+    valor =  Math.pow(2,valor);
+    var res= Math.floor(Math.random() * (valor - 1)) + 1
+    return res;
+ }

@@ -184,7 +184,7 @@
                 <small id="emailHelp" class="form-text text-muted"></small>
                 <br>
                 <button type="submit" class="btn btn-primary" onclick="llamarFuncionesPunto3(event);">Calcular</button>
-                <button type="submit" class="btn btn-primary" onclick="generarEjercicio(event,3);">Generar ejercicio</button>
+                <button type="submit" class="btn btn-primary" onclick="generarEjercicioIPBits(event,3,4);">Generar ejercicio</button>
 
               </div>
               
@@ -225,7 +225,9 @@
                     </tr>
                     <tr>
                       <th scope="row"></th>
-                      <td>   Ingrese el numero de subred <br> <input type="number" class="form-control campoTexto" id="direccionPunto3" aria-describedby="emailHelp" placeholder="# Subred"> <br> <button type="submit" class="btn btn-primary" onclick="llamarFuncionSubred(event);">Calcular</button>
+                      <td>   Ingrese el numero de subred <br> <input type="number" class="form-control campoTexto" id="direccionPunto3" aria-describedby="emailHelp" placeholder="# Subred">
+                         <br> <button type="submit" class="btn btn-primary" onclick="llamarFuncionSubred(event);">Calcular</button>
+                         <button type="submit" class="btn btn-primary" onclick="generaEjercicio5(event,3,4,5);">Generar ejercicio</button>
                       </td>
 
                       
@@ -261,21 +263,30 @@
                     </tr>
                     <tr>
                       <th scope="row">9</th>
-                      <td>Dirección	de	un	host	específico	en	una	subred	específica:  <br> <input type="number" class="form-control campoTexto" id="direccionPunto3" aria-describedby="emailHelp" placeholder="# del host"> <br> <button type="submit" class="btn btn-primary" onclick="llamarFuncionHost(event);">Calcular</button></td>
+                      <td>Dirección	de	un	host	específico	en	una	subred	específica:  <br> <input type="number" class="form-control campoTexto" id="direccionPunto3" aria-describedby="emailHelp" placeholder="# del host">
+                        <br> <button type="submit" class="btn btn-primary" onclick="llamarFuncionHost(event);">Calcular</button>
+                        <button type="submit" class="btn btn-primary" onclick="generaEjercicio4(event,3,4,5,6);">Generar ejercicio</button></td>
+                    
                       <td id="infoHost"></td>
                       
                     </tr>
 
                     <tr>
                       <th scope="row">10</th>
-                      <td>Determinar	la	subred	a	la	que	pertenece	una	dirección	IP	específica:<br> <input type="" class="form-control campoTexto" id="direccionPunto3" aria-describedby="emailHelp" placeholder="Direccion IP"> <br> <input type="number" class="form-control campoTexto" id="direccionPunto3" aria-describedby="emailHelp" placeholder="# Bits"> <br> <button type="submit" class="btn btn-primary" onclick="llamarFuncionIpEspecifica(event);">Calcular</button></td>
+                      <td>Determinar	la	subred	a	la	que	pertenece	una	dirección	IP	específica:<br> <input type="" class="form-control campoTexto" id="direccionPunto3" aria-describedby="emailHelp" placeholder="Direccion IP">
+                         <br> <input type="number" class="form-control campoTexto" id="direccionPunto3" aria-describedby="emailHelp" placeholder="# Bits"> 
+                         <br> <button type="submit" class="btn btn-primary" onclick="llamarFuncionIpEspecifica(event);">Calcular</button> 
+                          <button type="submit" class="btn btn-primary" onclick="generarEjercicioIPBits(event,7,8);">Generar ejercicio</button></td>
                       <td id="subredNueva"></td>
                       
                     </tr>
 
                     <tr>
                       <th scope="row">11</th>
-                      <td>Determinar si	dos	direcciones	IP	hacen	parte	de	la	misma	subred:<br> <input type="" class="form-control campoTexto" id="direccionPunto3" aria-describedby="emailHelp" placeholder="Direccion IP 1"> <br> <input type="" class="form-control campoTexto" id="direccionPunto3" aria-describedby="emailHelp" placeholder="Direccion IP 2"> <br> <button type="submit" class="btn btn-primary" onclick="llamarFuncionIpConexion(event);">Calcular</button></td>
+                      <td>Determinar si	dos	direcciones	IP	hacen	parte	de	la	misma	subred:<br> <input type="" class="form-control campoTexto" id="direccionPunto3" aria-describedby="emailHelp" placeholder="Direccion IP 1"> 
+                        <br> <input type="" class="form-control campoTexto" id="direccionPunto3" aria-describedby="emailHelp" placeholder="Direccion IP 2">
+                         <br> <button type="submit" class="btn btn-primary" onclick="llamarFuncionIpConexion(event);">Calcular</button>
+                         <button type="submit" class="btn btn-primary" onclick="generarMasIp(event,9,10);">Generar ejercicio</button></td>
                       <td id="conexion"></td>
                       
                     </tr>
@@ -284,7 +295,12 @@
 
                     <tr>
                       <th scope="row">12</th>
-                      <td>Dar	n	direcciones	IP	de una	subred	dada:<br> <input type="" class="form-control campoTexto" id="direccionPunto3" aria-describedby="emailHelp" placeholder="Direccion en formato simplificado"><br> <input type="number" class="form-control campoTexto" id="direccionPunto3" aria-describedby="emailHelp" placeholder="# Bits"><br> <input type="number" class="form-control campoTexto" id="direccionPunto3" aria-describedby="emailHelp" placeholder="#  Subred"> <br> <input type="" class="form-control campoTexto" id="direccionPunto3" aria-describedby="emailHelp" placeholder="Cantidad de direcciones a mostrar"> <br> <button type="submit" class="btn btn-primary" onclick="llamarFuncionNSubredes(event);">Calcular</button></td>
+                      <td>Dar	n	direcciones	IP	de una	subred	dada:<br> <input type="" class="form-control campoTexto" id="direccionPunto3" aria-describedby="emailHelp" placeholder="Direccion en formato simplificado"><br> <input type="number" class="form-control campoTexto" id="direccionPunto3" aria-describedby="emailHelp" placeholder="# Bits">
+                        <br> <input type="number" class="form-control campoTexto" id="direccionPunto3" aria-describedby="emailHelp" placeholder="#  Subred">
+                         <br> <input type="" class="form-control campoTexto" id="direccionPunto3" aria-describedby="emailHelp" placeholder="Cantidad de direcciones a mostrar">
+                          <br> <button type="submit" class="btn btn-primary" onclick="llamarFuncionNSubredes(event);">Calcular</button>
+                          <button type="submit" class="btn btn-primary" onclick="generaEjercicio12(event,11,12,13,14);">Generar ejercicio</button>
+                        </td>
                       <td id="nDirecciones"></td>
                       
                     </tr>
