@@ -1,55 +1,76 @@
+//constante que guarda todos los campos de texto
 const direccionConMascara= document.getElementsByClassName("campoTexto");
+//constante que guarda la direccion IP
 var direccionIP;
+//constante que guarda la mascara de la direccion
 var mascara;
 
+//Funcion que llena los elementos html con los resultados de las funciones del punto1
 function llamarFunciones(e) {
     e.preventDefault();
     dividirIPyMascara(1);
 
-    mascaraDeci=obtenerMascaraEnDecimal();
-    const mascara= document.getElementById('mascara');
-    mascara.innerHTML = mascaraDeci;
-
-    direccionBroadcast=obtenerBroadcastRed(direccionIP);
-      const broadcast= document.getElementById('broadcast');
-      broadcast.innerHTML = direccionBroadcast;
-
-    numBitsRed=numBitsParaIdentificarRed();
-    const bitsRed= document.getElementById('bitsRed');
-    bitsRed.innerHTML = numBitsRed;
-
-    numHosts= numBitsParaIdentificarHosts();
-      const bitsHosts= document.getElementById('bitsHosts');
-      bitsHosts.innerHTML = numHosts;
-
-    cantiHostsRed=cantidadHostsEnRed();
-      const cantHostsRed= document.getElementById('cantHostsRed');
-      cantHostsRed.innerHTML = cantiHostsRed;
-
-    rangoDirecciones= calcularRangoDirecciones(direccionIP);
-    const rangoDire= document.getElementById('rangoDirecciones');
-    rangoDire.innerHTML ="";
-    rangoDirecciones.forEach(direccion => {
-        rangoDire.innerHTML += direccion+"-";
-    });
+    if(mascara>=8 && mascara<=32)
+    {
+        //muestra la mascara en formato decimal
+        mascaraDeci=obtenerMascaraEnDecimal();
+        const mascara= document.getElementById('mascara');
+        mascara.innerHTML = mascaraDeci;
+    
+        //muestra la direccion de broadcast
+        direccionBroadcast=obtenerBroadcastRed(direccionIP);
+        const broadcast= document.getElementById('broadcast');
+        broadcast.innerHTML = direccionBroadcast;
+    
+        //muestra los numeros de bits para identificar la red
+        numBitsRed=numBitsParaIdentificarRed();
+        const bitsRed= document.getElementById('bitsRed');
+        bitsRed.innerHTML = numBitsRed;
+    
+        //muestra los numeros de bits para identificar los hosts
+        numHosts= numBitsParaIdentificarHosts();
+        const bitsHosts= document.getElementById('bitsHosts');
+        bitsHosts.innerHTML = numHosts;
+    
+        //muestra el numero de direcciones que se pueden asignar a los hosts
+        cantiHostsRed=cantidadHostsEnRed();
+        const cantHostsRed= document.getElementById('cantHostsRed');
+        cantHostsRed.innerHTML = cantiHostsRed;
+    
+        //muestra el rango de direcciones
+        rangoDirecciones= calcularRangoDirecciones(direccionIP);
+        const rangoDire= document.getElementById('rangoDirecciones');
+        rangoDire.innerHTML ="";
+        rangoDirecciones.forEach(direccion => {
+            rangoDire.innerHTML += direccion+"-";
+        });
+       
+        //muestra la lista de direcciones que se pueden asignar a los hosts
+        listaDirecciones=obtenerListadoHosts(direccionIP);
+        const direccionesHosts= document.getElementById('lista');
+        direccionesHosts.innerHTML ="";
+        listaDirecciones.forEach(direccionH => {
+            direccionesHosts.innerHTML += direccionH+"-";
+        });
+    }
+    else
+    {
+       alert("la mascara debe estar dentro del rango");
+       direccionConMascara[0].value="";
+    }
    
-    listaDirecciones=obtenerListadoHosts(direccionIP);
-    const direccionesHosts= document.getElementById('lista');
-    direccionesHosts.innerHTML ="";
-    listaDirecciones.forEach(direccionH => {
-        direccionesHosts.innerHTML += direccionH+"-";
-    });
-
 }
 
+//funcion que separa la ip y la mascara simplificada y la guarda en las constantes
 function dividirIPyMascara(numeroEjercicio) {
     
     var arrayipYmascara= direccionConMascara[numeroEjercicio-1].value.split("/");
     direccionIP= arrayipYmascara[0];
     mascara= parseInt(arrayipYmascara[1]);
-
+    
 }
 
+//funcion que tranforma la mascara simplificada a mascara decimal 
 function obtenerMascaraEnDecimal() {
     
     var mascaraBinario= convertirMascaraABinario();
@@ -58,6 +79,7 @@ function obtenerMascaraEnDecimal() {
     return mascaraDecimal;
 }
 
+//funcion que convierte la mascara simplificada a binario
 function convertirMascaraABinario() {
 
     var mascaraBinario= ""
@@ -77,6 +99,7 @@ function convertirMascaraABinario() {
    return mascaraBinario;
 }
 
+//funcion que transforma una direccion binaria o mascara a decimal
 function binarioAIpDecimal(valorBinario) {
     var valorDecimal="";
 
@@ -91,6 +114,7 @@ function binarioAIpDecimal(valorBinario) {
     return valorDecimal;
 }
 
+//funcion que calcula la direccion de broadcast convirtiendo la direccion a binario
 function obtenerBroadcastRed(ip) {
     
     var broadcastBinario = ""
@@ -112,6 +136,7 @@ function obtenerBroadcastRed(ip) {
     return direccionBroadcast;
 }
 
+//funcion que convierte una direccion ip a formato binario
 function pasarIpABinario(dirIP) {
     
     var ipBinario= "";
@@ -130,47 +155,62 @@ function pasarIpABinario(dirIP) {
     return ipBinario;
 }
 
+//funcion que calcula el numero de bits utilizados para identificar la red
 function numBitsParaIdentificarRed() {
 
     numBits=mascara;
     return numBits;
 } 
 
+//funcion que calcula el numero de bits utilizados para identificar los hosts
 function numBitsParaIdentificarHosts() {
     
     numHosts= 32-mascara;
     return numHosts;
 }
 
+//funcion que calcula la cantidad de hosts que están en una red
 function cantidadHostsEnRed(){
 
      bitsHosts= numBitsParaIdentificarHosts();
 
      if (bitsHosts > 1) {
-        cantHosts = Math.pow(2, bitsHosts);
+        cantH = Math.pow(2, bitsHosts);
     }
-    return cantHosts - 2
+    else{
+        
+            return 0;
+        
+    }
+    return cantH - 2
 }
 
+//funcion que calcula el rango de direcciones que se puede asignar a los hosts con boradcast y red
 function calcularRangoDirecciones(ip)
 {
     cantidadHosts= cantidadHostsEnRed();
- 
+    var direccionRed = obtenerDireccionRed();
+    var direccionBroadcast = obtenerBroadcastRed(ip);
+
     if(cantidadHosts>0)
     {
-        var direccionRed = obtenerDireccionRed();
+
         var hostMinimoBinario= pasarIpABinario(direccionRed);
         hostMinimoBinario = hostMinimoBinario.substring(0, hostMinimoBinario.length - 1) + '1';
         hostMinimo = binarioAIpDecimal(hostMinimoBinario);
 
-        var direccionBroadcast = obtenerBroadcastRed(ip);
+        
         var hostMaximoBinario = pasarIpABinario(direccionBroadcast);
         hostMaximoBinario = hostMaximoBinario.substring(0, hostMaximoBinario.length - 1) + '0';
         hostMaximo = binarioAIpDecimal(hostMaximoBinario);
     }
+    else{
+        return Array.of(direccionRed,direccionBroadcast);
+    }
     return Array.of(direccionRed,hostMinimo,hostMaximo,direccionBroadcast);
 }
 
+//funcion que calcula la direccion de la red
 function obtenerDireccionRed() {
     
     var direccionRedBin="";
@@ -191,6 +231,8 @@ function obtenerDireccionRed() {
      return binarioAIpDecimal(direccionRedBin);
 
 }
+
+//funcion que obtiene el listado de las direcciones que se pueden asignar a los hosts
 function obtenerListadoHosts(ip) {
     var cantidadHosts= cantidadHostsEnRed();
 
@@ -218,6 +260,7 @@ function obtenerListadoHosts(ip) {
     return direccionesHosts;
 }
 
+//funcion que genera una direccion ip aleatoria con su repectiva mascara simplificada
 function generarIPAleatoria(){
 
     var ip = (Math.floor(Math.random() * 255) + 1)+"."+(Math.floor(Math.random() * 255))+"."+(Math.floor(Math.random() * 255))+"."+(Math.floor(Math.random() * 255)); 
@@ -226,6 +269,7 @@ function generarIPAleatoria(){
     return ip;
 }
 
+//funcion que calcula una mascara adecuada a la direccion ip generada aleatoriamente
 function sacarMascaraAdecuada(ip ) {
     
     mascaraSimplificada = "";
@@ -254,41 +298,54 @@ function sacarMascaraAdecuada(ip ) {
     return mascaraSimplificada;
 }
 
+//funcion que genera un ejercicio aleatorio 
 function generarEjercicio(e, numeroEjercicio) {
    e.preventDefault();
    var ip= generarIPAleatoria();
    direccionConMascara[numeroEjercicio-1].value=ip;
 }
 
+//Funcion que llena los elementos html con los resultados de las funciones del punto2 
 function llamarFuncionesPunto2(e) {
     e.preventDefault();
     dividirIPyMascara(2);
 
-    var direccionRedHost = obtenerDireccionRed();
-    const direccionRedH= document.getElementById('direccionRed');
-    direccionRedH.innerHTML = direccionRedHost;
-
-    direccionBroadcastRed=obtenerBroadcastRed(direccionRedHost);
-    const broadcastRed= document.getElementById('broadcastRed');
-    broadcastRed.innerHTML = direccionBroadcastRed;
-
-    cantiHostsRed=cantidadHostsEnRed();
-      const cantidadHostsR= document.getElementById('cantidadHosts');
-      cantidadHostsR.innerHTML = cantiHostsRed;
-
-      rangoDireccionesHosts= calcularRangoDirecciones(direccionRedHost);
-      const rangoDireHosts= document.getElementById('rangoDireccionesHosts');
-      rangoDireHosts.innerHTML ="";
-      rangoDireccionesHosts.forEach(direccion => {
-        rangoDireHosts.innerHTML += direccion+"-";
-      });
-
-      listaDireccionesHosts=obtenerListadoHosts(direccionRedHost);
-      const direccionesHostsR= document.getElementById('listaHostsRed');
-      direccionesHostsR.innerHTML ="";
-      listaDireccionesHosts.forEach(direccionH => {
-          direccionesHostsR.innerHTML += direccionH+"-";
-      });
+    if(mascara>=8 && mascara<=32)
+    {
+        //muestra la direccion de la red del host
+        var direccionRedHost = obtenerDireccionRed();
+        const direccionRedH= document.getElementById('direccionRed');
+        direccionRedH.innerHTML = direccionRedHost;
     
-     
+        //muestra la direccion de broadcast de la red
+        direccionBroadcastRed=obtenerBroadcastRed(direccionRedHost);
+        const broadcastRed= document.getElementById('broadcastRed');
+        broadcastRed.innerHTML = direccionBroadcastRed;
+    
+        //muestra la cantidad de hosts en la red
+        cantidadHostsRed=cantidadHostsEnRed();
+        const cantidadHostsR= document.getElementById('cantidadHosts');
+        cantidadHostsR.innerHTML = cantidadHostsRed;
+    
+        //muestra el rango de direcciones
+        rangoDireccionesHosts= calcularRangoDirecciones(direccionRedHost);
+        const rangoDireHosts= document.getElementById('rangoDireccionesHosts');
+        rangoDireHosts.innerHTML ="";
+        rangoDireccionesHosts.forEach(direccion => {
+           rangoDireHosts.innerHTML += direccion+"-";
+        });
+    
+        //muestra la lista de direcciones que se pueden asignar a los hosts
+        listaDireccionesHosts=obtenerListadoHosts(direccionRedHost);
+        const direccionesHostsR= document.getElementById('listaHostsRed');
+        direccionesHostsR.innerHTML ="";
+        listaDireccionesHosts.forEach(direccionH => {
+            direccionesHostsR.innerHTML += direccionH+"-";
+          });
+    }
+    else
+    {
+       alert("la mascara debe estar dentro del rango");
+       direccionConMascara[1].value="";
+    }
 }
