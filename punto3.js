@@ -427,7 +427,7 @@ function llamarFuncionNSubredes(e){
      function generarBist(direccion ){
   
         var arreglo = direccion.split("/");
-        var valor= Math.floor((32 - arreglo[1])/2);
+        var valor= Math.floor((32 - arreglo[1])/2) + 1;
         var bit= Math.floor(Math.random() * valor) + 1;
 
         return bit;
@@ -465,7 +465,7 @@ function llamarFuncionNSubredes(e){
         var bit =generarBist(ip);
         var host= generarHost(ip,bit);
         var valor= calcularSubredes (bit);
-        var subred= Math.floor(Math.random() * (valor - 1)) + 1
+        var subred= Math.floor(Math.random() * (valor - 1)) + 1;
         direccionConMascara[num1-1].value=ip;
         direccionConMascara[num2-1].value=bit;
         direccionConMascara[num3-1].value=subred;
